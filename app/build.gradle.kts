@@ -1,6 +1,11 @@
+val appVersionCode = 1
+val appVersionName = "$appVersionCode.0"
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.devtools.ksp") version "2.1.0-1.0.29" // Migrate from kapt to ksp
 }
 
 android {
@@ -10,9 +15,9 @@ android {
     defaultConfig {
         applicationId = "com.example.mvvmshoppinglist"
         minSdk = 34
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 35
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +38,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -42,6 +51,31 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Room and Architectural Components
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.legacy.support.v4) //For backward compatibility
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.room.ktx) //Kotlin Extensions and Coroutines support for Room
+    ksp(libs.androidx.room.compiler)
+
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // New Material Design
+    implementation (libs.material.v100)
+
+    // ViewModel
+    implementation (libs.androidx.lifecycle.extensions)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    ksp(libs.androidx.lifecycle.compiler)
+
+    // Kodein
+    implementation (libs.kodein.di.generic.jvm)
+    implementation (libs.kodein.di.framework.android.x)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
